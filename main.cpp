@@ -33,6 +33,12 @@ int main(int argc, char** argv) {
     insert<int>(root, 299);
     
     printNodes<int>(root);
+
+    deleteNode<int>(root, 400);
+    deleteNode<int>(root, 6);
+
+    printNodes<int>(root);
+
     destroyTree(root);
     delete root;
     }

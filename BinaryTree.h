@@ -48,6 +48,57 @@ struct Node {
     }
 };
 
+template <typename T>
+Node<T>* findNode(Node<T>* root, T key)
+{
+	if (root != nullptr) {
+		if (root->m_data == key) return root;
+		if (key < root->m_data) return findNode(root->left, key);
+		if (key > root->m_data) return findNode(root->right, key);
+	}
+	return root;
+}
+
+template <typename T>
+Node<T>* minValueNode(Node<T>* node)
+{
+	Node<T>* current = node;
+	while (current->left != nullptr)
+		current = current->left;
+	return current;
+}
+
+template <typename T>
+Node<T>* deleteNode(Node<T>* root, T key)
+{
+	if (root == nullptr) return root;
+	
+	if (key < root->m_data)
+		root->left = deleteNode(root->left, key);
+	else if (key > root->m_data)
+		root->right = deleteNode(root->right, key);
+	
+	else {
+		if (root->left == nullptr)
+		{
+			Node<T>* tmp = root->right;
+			delete root;
+			return tmp;		
+		}
+		else if (root->right == nullptr) 
+		{
+			Node<T>* tmp = root->left;
+			delete root;
+			return tmp;
+		}
+
+		Node<T>* tmp = minValueNode(root->right);
+		root->m_data = tmp->m_data;
+		root->right = deleteNode(root->right, tmp->m_data);
+	}
+	return root;
+}
+
 
 template <typename T>
 Node<T>* insert(Node<T>* node, T data)
